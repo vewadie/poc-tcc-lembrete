@@ -9,6 +9,7 @@ import {
   HORARIO_DIARIO,
   agendarDiario,
   agendarTeste,
+  cancelarTodos,
   configurarNotificacoes,
   garantirPermissao,
   listarAgendados,
@@ -52,6 +53,16 @@ export default function App() {
     }
   }
 
+  async function cancelar() {
+    try {
+      await cancelarTodos();
+      setMensagem('');
+      await atualizar();
+    } catch (erro) {
+      setMensagem(`Erro ao cancelar: ${(erro as Error).message}`);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Apsicare · lembrete do diário</Text>
@@ -69,6 +80,7 @@ export default function App() {
         cor="#4A3F8C"
         onPress={() => agendar(agendarDiario, '')}
       />
+      <Botao titulo="Cancelar lembretes" cor="#757575" onPress={cancelar} />
 
       {mensagem !== '' && <Text style={styles.mensagem}>{mensagem}</Text>}
 
