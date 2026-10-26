@@ -16,6 +16,8 @@ import {
   tipoDe,
 } from './lembretes';
 
+const SEM_PERMISSAO = 'Permita as notificações nos Ajustes do celular para receber lembretes';
+
 export default function App() {
   const [agendados, setAgendados] = useState<NotificationRequest[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -44,7 +46,10 @@ export default function App() {
 
   async function agendar(acao: () => Promise<string>, sucesso: string) {
     try {
-      await garantirPermissao();
+      if (!(await garantirPermissao())) {
+        setMensagem(SEM_PERMISSAO);
+        return;
+      }
       await acao();
       setMensagem(sucesso);
       await atualizar();
