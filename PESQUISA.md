@@ -54,7 +54,24 @@ O que a documentação confirmou e entrou na prova de conceito:
 - Como percebi: lendo a seção de permissões da documentação.
 - O certo: no Android 13 a janela de permissão nem aparece se nenhum canal existir. O canal precisa ser criado **antes** de pedir a permissão, por isso a ordem no código é essa.
 
-**A conferir em uma segunda IA** (exercício 3 da apostila): rodar o mesmo prompt do mapa no ChatGPT ou no Gemini e anotar aqui onde as respostas divergem.
+## Comparação com uma segunda IA
+
+Mesmo prompt do `mapa-ia-antes-da-doc.md`, enviado ao ChatGPT em 31/10/2026. Observação: o ChatGPT fez busca na web por conta própria (os links vieram com `utm_source=chatgpt.com`), então a resposta dele não é só de memória como a do Claude.
+
+**Onde as duas concordam**
+- A primeira recomendação é a notificação local com `expo-notifications`, para lembrete em horário fixo, sem servidor.
+- Push remoto serve quando o lembrete depende de dados do servidor (ex.: só avisar quem ainda não escreveu naquele dia).
+- `expo-background-task` não garante horário, porque o sistema decide quando a tarefa roda.
+
+**Onde divergem**
+
+| Ponto | Claude (de memória) | ChatGPT (com busca) | O que a documentação confirma |
+|-------|--------------------|---------------------|-------------------------------|
+| Expo Go | Diz claramente que a notificação local funciona no Expo Go e que o push remoto não funciona no Expo Go no Android desde o SDK 53. | Só diz que "a documentação diferencia Expo Go e development build" e sugere development build para push. Não diz se a notificação local roda no Expo Go. | **Claude**: "Local notifications (in-app notifications) remain available in Expo Go"; o push "is unavailable in Expo Go on Android from SDK 53". Para esta pesquisa, que precisa rodar no Expo Go, a resposta do ChatGPT deixaria a dúvida aberta. |
+| Alternativas | 4 opções, incluindo o Notifee. | 6 opções: inclui FCM/APNs direto, OneSignal e um aviso dentro do app (`AppState`); não cita o Notifee. | As páginas que o ChatGPT indicou existem (conferi uma a uma). As opções a mais não mudam a escolha: FCM/APNs e OneSignal são push remoto, e o aviso dentro do app não funciona com o app fechado. |
+| Contexto do projeto | Usa só o que estava no prompt. | Afirma que "o ApsiCare já possui backend AWS" e sugere uma Lambda. | **Nada disso estava no prompt.** O ChatGPT trouxe informação de fora da pergunta, provavelmente da memória de conversas anteriores da conta. Mesmo que esteja certa, é um risco: a resposta parece baseada só na pergunta, mas não é. |
+
+**Conclusão:** as duas IAs chegam à mesma recomendação, mas a do Claude acertou o ponto decisivo desta pesquisa (o que funciona no Expo Go), e a do ChatGPT trouxe mais opções e links verificáveis, porém misturou contexto que não estava na pergunta. Nenhuma das duas citou que o canal precisa existir antes de pedir a permissão no Android 13.
 
 ## Resultado e próximos passos no TCC
 
